@@ -14,9 +14,38 @@ class ParticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function Auth($user_id, $password)
     {
-        return "testing... package";
+       $curl_req = "curl https://api.particle.io/oauth/token -u particle:particle -d grant_type=password -d username=".$user_id." -d password=".$password."";
+        exec($curl_req,$result);
+        $result =  implode('', $result); 
+        $result = json_decode($result);
+        if ($result) {
+            if (isset($result->error) && $result->error) {
+                return array(
+                    'status' => false,
+                    'code' => 400,
+                    'message' => 'User id or password wrong'
+                );
+            }
+            else
+            {
+                return array(
+                    'status' => true,
+                    'code' => 200,
+                    'message' => 'Authenticated Successfully',
+                    'response' => $result->access_token
+                );
+            }
+        }
+        else
+        {
+            return array(
+                'status' => false,
+                'code' => 500,
+                'message' => 'Internal Server Error, Try again after a refresh'        
+            );
+        }
     }
 
     /**
