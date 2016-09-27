@@ -48,69 +48,37 @@ class ParticleController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function ListDevices($access_token) {
+        if (!empty($access_token)) {
+            $curl_req = "curl https://api.particle.io/v1/devices?access_token=".$access_token;
+            exec($curl_req, $list_particle);
+            $list_particle = implode('', $list_particle);
+            $list_particle = json_decode($list_particle);
+            if (empty($list_particle)) {
+                return array(
+                    'status' => false,
+                    'code' => 200,
+                    'message' => "You dont have any device listed Claim for the listing Hint: Download Particle.io App from play store and claim your device."
+                );
+            }
+            else
+            {
+                return array(
+                    'status' => true,
+                    'code' => 200,
+                    'message' => 'Http Request ok',
+                    'response' => $list_particle
+                );
+            }
+        }
+        else
+        {
+            return array(
+                'status' => false,
+                'code' => 400,
+                'message' => 'No authentication token. Hint: pass access token through your request'
+            );
+        }
+        
     }
 }

@@ -9,4 +9,12 @@ write at providers array : Particle\Console\ParticlesServiceProvider::class, <br
 write  <b> use Particle\Console\Http\Controllers\ParticleController as Particle; </b> at the top of your controller. <br> 
 
 initiate object  like <b>$obj = new Particle(); </b><br>
-for login use $obj->Auth($user_id, $password);
+for login use $obj->Auth($user_id, $password); <br/>
+
+
+
+
+
+<b>List All Devices in a account</b><br>
+this function accepts only one parameter thats <b>access token</b><br> 
+$obj->ListDevices($token)<br/>
