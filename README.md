@@ -16,5 +16,17 @@ for login use $obj->Auth($user_id, $password); <br/>
 
 
 <b>List All Devices in a account</b><br>
-this function accepts only one parameter thats <b>access token</b><br> 
-$obj->ListDevices($token)<br/>
+this method accepts only one parameter thats <b>access token</b><br> 
+<b>Method Signature : - </b> $obj->ListDevices($token)<br/>
+
+
+<b>Transfer ownership</b><br/>
+this method transfer ownership of a particle through third party website of a particle<br/>
+this method accespts two param 1. access token and 2. device id <br/>
+<b>Method Signature : - </b> $obj->RequestDeviceTransfer($token, $device_id)<br/>
+
+<b>Claim a Device Through usb</b><br/>
+
+this method claim a brand new device in your particle console through usb (No need of particle app) . Accepts two parameters 1. access token 2. device id<br>
+<b>Method Signature : - </b> $obj->claimDeviceOverUsb($token, $device_id)
+

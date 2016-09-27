@@ -9,11 +9,8 @@ use App\Http\Controllers\Controller;
 
 class ParticleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
+    //Authenticate a user
     public function Auth($user_id, $password)
     {
        $curl_req = "curl https://api.particle.io/oauth/token -u particle:particle -d grant_type=password -d username=".$user_id." -d password=".$password."";
@@ -48,6 +45,7 @@ class ParticleController extends Controller
         }
     }
 
+    //list all the devices
     public function ListDevices($access_token) {
         if (!empty($access_token)) {
             $curl_req = "curl https://api.particle.io/v1/devices?access_token=".$access_token;
@@ -80,5 +78,65 @@ class ParticleController extends Controller
             );
         }
         
+    }
+    //tranfer ownership
+    public function RequestDeviceTransfer($access_token, $device_ID) {
+        $curl_req = "curl https://api.particle.io/v1/devices -d access_token=".$access_token." -d id=".$device_ID." -d request_transfer=true";
+        exec($curl_req, $transfer);
+        $transfer = implode('', $transfer);
+        $transfer = json_decode($transfer);
+        if (!empty($transfer)) {
+            return array(
+                'status' => true,
+                'code' => 200,
+                'message' => "Transfer id generated Successfully! Ask Your Device's pre-owner to approve it. He or she might get an email regarding to that",
+                'response' => $transfer
+            );
+        }
+        else
+        {
+            return array(
+                'status' => false,
+                'code' => 400,
+                'message' => "Bad Request! could not be able to generate transfer_id"
+            );
+        }
+        //return $transfer;
+    }
+
+    //claim device over usb
+    public function claimDeviceOverUsb($access_token, $device_ID) {
+
+        $curl_req = "curl https://api.particle.io/v1/devices -d access_token=".$access_token." -d id=".$device_ID."";
+        exec($curl_req, $isClaimed);
+        $isClaimed = implode('', $isClaimed);
+        $isClaimed = json_decode($isClaimed);
+        if ($isClaimed) {
+            if (isset($isClaimed->error_description)) {
+                return array(
+                    'status' => false,
+                    'code' => 400,
+                    'message' => 'Bad Request',
+                    'response' => $isClaimed->error_description
+                );
+            }
+            else
+            {
+                return array(
+                    'status' => true,
+                    'code' => 200,
+                    'message' => 'Device with ID '.$device_ID.' claimed Successfully!',
+                    'response' => $isClaimed
+                );
+            }
+        }
+        else
+        {
+            return array(
+                'status' => false,
+                'code' => 500,
+                'message' => "Internal Server Error"
+            );
+        }
     }
 }
