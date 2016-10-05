@@ -1,6 +1,6 @@
 <b>NOTE :- THIS IS THE DEVELOPMENT VERSION 1.0</b><br>
 
-Documentation Package: <br> 
+## Installation 
 
 ```json
 {
@@ -15,7 +15,8 @@ Documentation Package: <br>
   ```
 </b>
 
-write in providers array : 
+## Configuration 
+
 ```php 
 Particle\Console\ParticlesServiceProvider::class,
 ``` 
@@ -35,8 +36,8 @@ for login use
 ```php 
  $obj->Auth($user_id, $password);
 ```
-
-<b>List All Devices in a account</b><br>
+## Usage 
+####List All Devices in a account
 
 this method accepts only one parameter thats <b>access token</b><br>
 
@@ -67,4 +68,11 @@ this method will delete an access token access three params 1. user id 2. passwo
 <b>Method Signature : -</b> 
 ```php
 $obj->delAccessToken($user_id, $password, $token_to_del) 
+```
+<b>Get a device Information:-</b>
+this method accept two params  1. device id, 2.access token.<br/>
+
+<b>Method Signature: -</b>
+```php
+$obj->getDeviceInfo($device_ID, $access_token)
 ```

@@ -182,5 +182,39 @@ class ParticleController extends Controller
             );
         }
     }
+    //get device information
+    public function getDeviceInfo($device_ID, $access_token) {
+        $curl_req = "curl https://api.particle.io/v1/devices/".$device_ID."\?access_token\=".$access_token."";
+        exec($curl_req,$result);
+        $result =  implode('', $result); 
+        $result = json_decode($result);
+        //return $result;
+        if($result) {
+            if (isset($result->id) && isset($result->name) && $result->id && $result->name) {
+                return array(
+                    'status' => true,
+                    'code' => 200,
+                    'message' => "successfull request",
+                    'response' => $result
+                );
+            }
+            else
+            {
+                return array(
+                    'status' =>false,
+                    'code' => 400,
+                    'message' => "Bad Request",
+                    'response' => $result
+                );
+            }
+        }   
+        else {
+            return array(
+                'status' => false,
+                'code' => 500,
+                'message' => 'Something went wrong. Internal server error. Make sure you have passed all params properly. Hint: device_id, access_token'
+            );
+        } 
+    }
 
 }
