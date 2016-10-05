@@ -39,40 +39,40 @@ for login use
 ## Usage 
 ####List All Devices in a account
 
-this method accepts only one parameter thats <b>access token</b><br>
+this method accepts only one parameter thats access token<br>
 
-<b>Method Signature : -</b>  
+#####Method Signature :-
 ```php
 $obj->ListDevices($token)
 ```
 
-<b>Transfer ownership</b>
+####Transfer ownership
 
 this method transfer ownership of a particle through third party website of a particle<br/>
 this method accespts two param 1. access token and 2. device id <br/>
-<b>Method Signature : - </b> 
+#####Method Signature : - 
 ```php
 $obj->RequestDeviceTransfer($token, $device_id)
 ```
 
-<b>Claim a Device Through usb</b><br/>
+####Claim a Device Through usb
 
 this method claim a brand new device in your particle console through usb (No need of particle app) . Accepts two parameters 1. access token 2. device id<br>
-<b>Method Signature : - </b> 
+#####Method Signature : -
 ```php
 $obj->claimDeviceOverUsb($token, $device_id)
 ```
-<b>Delete an access token</b><br>
+####Delete an access token
 this method will delete an access token access three params 1. user id 2. password 3. access token you want to delete<br/>
 
-<b>Method Signature : -</b> 
+#####Method Signature :-
 ```php
 $obj->delAccessToken($user_id, $password, $token_to_del) 
 ```
-<b>Get a device Information:-</b>
+####Get a device Information:-
 this method accept two params  1. device id, 2.access token.<br/>
 
-<b>Method Signature: -</b>
+#####Method Signature:-
 ```php
 $obj->getDeviceInfo($device_ID, $access_token)
 ```
