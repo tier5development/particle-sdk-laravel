@@ -139,4 +139,48 @@ class ParticleController extends Controller
             );
         }
     }
+
+    //delete an access token
+    public function delAccessToken($user_id, $password, $token_to_del) {
+        if ($user_id && $password && $token_to_del) {
+            $curl_req = "curl https://api.particle.io/v1/access_tokens/".$token_to_del." -X DELETE -u ".$user_id.":".$password."";
+            exec($curl_req,$result);
+            $result =  implode('', $result); 
+            $result = json_decode($result);
+            if ($result) {
+                if (isset($result->ok)) {
+                    return array(
+                        'status' => true,
+                        'code' => 200,
+                        'message' => "Token ".$token_to_del." deleted successfully!"
+                    );
+                }
+                else
+                {
+                    return array(
+                        'status' => false,
+                        'code' => 400,
+                        'message' => 'Something went wrong!',
+                        'response' => $result
+                    );
+                }
+            }
+            else
+            {
+                return array(
+                    'status' => false,
+                    'code' => 500,
+                    'message' => 'Internal Server error , Try again after a refresh or make sure all params passed properly. Hint: particle userid, password, access token you want to delete'
+                );
+            }
+        } 
+        else {
+            return array(
+                'status' => false,
+                'code' => 403,
+                'message' => "Sorry! No user id or password or token unauthorized!"
+            );
+        }
+    }
+
 }

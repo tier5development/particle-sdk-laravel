@@ -2,7 +2,7 @@
     "name": "particleio/console",
     "type": "library",
     "description": "A Laravel Package for particle.io",
-    "keywords": ["laravel package for particle","particle.io"],
+    "keywords": ["laravel package for particle","particle.io laravel package", "particle.io php sdk", "particle php sdk", "particle package", "particleio package for laravel", "particle laravel", "particle php"],
     "homepage": "https://github.com/subhankartier5",
     "license": "MIT",
     "authors": [

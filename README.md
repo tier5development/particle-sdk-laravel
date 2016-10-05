@@ -28,5 +28,9 @@ this method accespts two param 1. access token and 2. device id <br/>
 <b>Claim a Device Through usb</b><br/>
 
 this method claim a brand new device in your particle console through usb (No need of particle app) . Accepts two parameters 1. access token 2. device id<br>
-<b>Method Signature : - </b> $obj->claimDeviceOverUsb($token, $device_id)
+<b>Method Signature : - </b> $obj->claimDeviceOverUsb($token, $device_id)<br/>
 
+<b>Delete an access token</b><br>
+this method will delete an access token access three params 1. user id 2. password 3. access token you want to delete<br/>
+
+<b>Method Signature : -</b> $obj->delAccessToken($user_id, $password, $token_to_del) <br/>
