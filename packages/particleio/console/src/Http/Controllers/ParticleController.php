@@ -249,5 +249,91 @@ class ParticleController extends Controller
             );
         }
     }
+    //rename a device
+    public function renameDevice($device_ID, $access_token, $desired_name) {
+        //dd('here');
+        $curl_req = "curl -X PUT https://api.particle.io/v1/devices/".$device_ID." -d name=".$desired_name." -d access_token=".$access_token."";
+        //echo $curl_req;
+        exec($curl_req, $response);
+        $response = implode('', $response);
+        $response = json_decode($response);
+        //return $response;
+        if ($response) {
+            if (isset($response->name) && isset($response->id) && $response->name && $response->id) {
+                return array(
+                    'status' => true,
+                    'code' => 200,
+                    'message' => 'Device '.$device_ID.' renamed successfully',
+                    'response' => $response
+                );
+            }
+            else
+            {
+                return array(
+                    'status' => false,
+                    'code' => 400,
+                    'message' => "Bad Request. Something went wrong try it again!",
+                    'response' => $response
+                );
+            }
+        }
+        else
+        {
+            return array(
+                'status' => false,
+                'code' => 500,
+                'message' => "Device Might not online or listed in your account"
+            );
+        }
+    }
+
+    //burn device with code snippet
+    public function postCodeSnippet($directory=null, $device_ID, $access_token, $code_snippet) {
+        $directory = $directory == null ? "app/" : $directory;
+        $file_name = "file".time().".ino";
+        File::put($directory.'/'.$file_name, $code_snippet);
+        $curl_req = 'curl -X PUT -F file=@'.$directory.''.$file_name.' https://api.particle.io/v1/devices/'.$device_ID.'?access_token='.$access_token.'';
+        exec($curl_req,$result);
+        $result =  implode('', $result); 
+        $result = json_decode($result);
+        //return $result;
+        $this->_deleteFile($directory, $file_name);
+        if ($result) {
+            if (isset($result->ok) && $result->ok) {
+                return array(
+                    'status' => true,
+                    'code' => 200,
+                    'message' => 'Particle is flashing please wait for a moment'
+                );
+            }
+            else
+            {
+                return array(
+                    'status' => false,
+                    'code' => 400,
+                    'message' => 'Bad Request',
+                    'response' => $result
+                );
+            }
+        }
+        else
+        {
+            return array(
+                'status' => false,
+                'code' => 500,
+                'message' => 'Internal server error. Make sure you feed all params correctly. Hint: Regenerate Token'
+            );
+        }
+    }
+    //delete the file after using from directory
+    private function _deleteFile($directory, $file_name) {
+        if (unlink($directory.'/'.$file_name)) {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 }

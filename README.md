@@ -75,3 +75,38 @@ this method accept two params 1. device id (which you want to remove) 2. access 
 ```php
 $obj->unClaimDevice($device_ID, $access_token)
 ```
+####Rename a device :-
+this method accept three params 1. device_ID, 2. access_token, 3. desired_name <br/>
+#####Method Signature :-
+```php
+$obj->renameDevice($device_ID, $access_token, $desired_name);
+```
+####Burn Particle with your code snippet :-
+this method accept 4 params :- 
+<ul>
+	<li>
+		1. directory= nullable (pass the param like '' -> blank if you dont wana put a directory it will create its own)
+		or put your own directory.
+	</li>
+	<li>
+		2.device_ID
+	</li>
+	<li>
+		3.access_token
+	</li>
+	<li>
+		4. code_snippet -> create a variable with your code snippet like 
+		```php
+			$code = "int led=D7;void setup(){pinMode(led,OUTPUT); digitalWrite(led, HIGH);}";
+		```
+		and pass it.
+	</li>
+</ul>
+#####Method Signature :-
+```php
+$obj->postCodeSnippet($directory, $device_ID, $access_token, $code_snippet);
+```
+or
+```php
+$obj->postCodeSnippet('', $device_ID, $access_token, $code_snippet);
+```
