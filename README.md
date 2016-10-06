@@ -28,6 +28,8 @@ write  use
 ```  
 at the top of your controller. <br> 
 
+
+## Usage 
 initiate object  like 
 ```php 
   $obj = new Particle();
@@ -36,7 +38,6 @@ for login use
 ```php 
  $obj->Auth($user_id, $password);
 ```
-## Usage 
 ####List All Devices in a account
 this method accepts only one parameter thats access token<br>
 #####Method Signature :-
