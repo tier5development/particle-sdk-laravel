@@ -216,5 +216,38 @@ class ParticleController extends Controller
             );
         } 
     }
+    //unclaim a device
+    public function unClaimDevice($device_ID, $access_token) {
+        $curl_req = "curl -X DELETE https://api.particle.io/v1/devices/".$device_ID." -d access_token=".$access_token."";
+        exec($curl_req, $response);
+        $response = implode('', $response);
+        $response = json_decode($response);
+        if ($response) {
+            if (isset($response->ok) && $response->ok) {
+                return array(
+                    'status' => true,
+                    'code' => 200,
+                    'message' => 'Device '.$device_ID.' successfully removed'
+                );
+            }
+            else
+            {
+                return array(
+                    'status' => false,
+                    'code' => 400,
+                    'message' => "Bad Request",
+                    'response' => $response
+                );
+            }
+        }
+        else
+        {
+            return array(
+                'status' => false,
+                'code' => 500,
+                'message' => 'Internal server error. Hint: make sure you feed the proper and correct data. Try again!'
+            );
+        }
+    }
 
 }
